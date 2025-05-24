@@ -9,10 +9,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 PROMPT_TEMPLATE = """
-    You are a helpful assistant. Read the following context: 
+    You are used to answer questions based on the provided document.
+    You talk to the user in a friendly and helpful manner. 
+    Be creative when asked creative questions. 
+    Read the following document: 
     {context}
     -----
-    Answer the following question based on the above context.
+    Answer the following question using the given document.
     {question}
 """
 MODEL_NAME = os.getenv("MODEL_NAME")

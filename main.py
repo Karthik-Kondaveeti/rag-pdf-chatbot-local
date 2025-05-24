@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 app = FastAPI()
 
 load_dotenv()
-PATH = os.getenv("PATH")
+DATABASE_PATH = os.getenv("DATABASE_PATH")
 
 @app.post("/ask")
 def ask(prompt: str):
@@ -15,7 +15,7 @@ def ask(prompt: str):
 
 @app.post("/upload")
 async def upload(file: UploadFile = File(...)):
-    file_location = f"{PATH}/{file.filename}"
+    file_location = f"{DATABASE_PATH}/{file.filename}"
     with open(file_location, "wb") as f:
         contents = await file.read()
         f.write(contents)
