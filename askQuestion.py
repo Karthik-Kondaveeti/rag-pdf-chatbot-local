@@ -8,13 +8,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-PROMPT_TEMPLATE = """
-    You are a helpful assistant. Read the following context: 
-    {context}
-    -----
-    Answer the following question based on the above context.
-    {question}
-"""
+PROMPT_TEMPLATE = os.getenv("PROMPT_TEMPLATE", 
+                            "Understand the context below and answer the question.\n\nContext:\n{context}\nMy Question is: {question}")
 MODEL_NAME = os.getenv("MODEL_NAME")
 DATABASE_PATH = os.getenv("DATABASE_PATH")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
