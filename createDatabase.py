@@ -8,8 +8,8 @@ from langchain_ollama import OllamaEmbeddings
 
 load_dotenv()
 
-PATH = "data"
-DATABASE_PATH = "chroma"
+DOCUMENTS_PATH = os.getenv("DOCUMENTS_PATH")
+DATABASE_PATH= os.getenv("DATABASE_PATH")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 
 def main():
@@ -20,7 +20,7 @@ def main():
 def loadDocuments():
     documents = []
 
-    pdf_loader = DirectoryLoader(PATH, glob="*.pdf", loader_cls=PyPDFLoader)
+    pdf_loader = DirectoryLoader(DOCUMENTS_PATH , glob="*.pdf", loader_cls=PyPDFLoader)
     documents.extend(pdf_loader.load())
 
     return documents

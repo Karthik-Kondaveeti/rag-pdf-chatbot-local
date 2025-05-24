@@ -1,5 +1,6 @@
 import os
 import argparse
+from pathlib import Path
 from yaspin import yaspin
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings, ChatOllama
@@ -8,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 PROMPT_TEMPLATE = """
-    You are a helpful assistant. The following is the context for you to answer the question: 
+    You are a helpful assistant. Read the following context: 
     {context}
     -----
     Answer the following question based on the above context.
@@ -28,8 +29,12 @@ def main():
     args = parser.parse_args()
     question = args.question
 
-    embedding_function = OllamaEmbeddings(model = EMBEDDING_MODEL)
-    db = Chroma(persist_directory=DATABASE_PATH, embedding_function=embedding_function)
+    folder = Path(DATABASE_PATH)
+    if not folder.exists() or not folder.is_dir():
+        print("First, you need to upload your files to the database...")
+        return
+
+    db = Chroma(persist_directory = DATABASE_PATH, embedding_function = OllamaEmbeddings(model = EMBEDDING_MODEL))
 
     with yaspin(text="Searchin database...", color="cyan") as spinner:
         results = db.similarity_search_with_relevance_scores(query = question, k = 5)
@@ -39,8 +44,8 @@ def main():
         print(f"Unable to find matching results.")
         return
 
-    for result, score in results:
-        print(f"Score: {score}")
+    # for result, score in results:
+    #     print(f"Score: {score}")
     #     print(f"Result: {result.page_content}")
     #     print("________________________")
 
@@ -63,13 +68,19 @@ def askAI(prompt):
     return response.content
 
 def predict(question):
+    folder = Path(DATABASE_PATH)
+    if not folder.exists() or not folder.is_dir():
+        return {
+            "success": False,
+            "response": "First, you need to upload your files to the database...",
+        }
     embedding_function = OllamaEmbeddings(model = EMBEDDING_MODEL)
     db = Chroma(persist_directory=DATABASE_PATH, embedding_function=embedding_function)
     results = db.similarity_search_with_relevance_scores(query = question, k = 5)
     if len(results) == 0 or results[0][1] < 0.4:
         return {
-            "response": "Unable to find matching results.", 
-            "sources": []
+            "success": False,
+            "response": "Unable to find matching results.",
         }
     for result in results:
         result[0].page_content = " ".join(result[0].page_content.split())
@@ -78,11 +89,11 @@ def predict(question):
     prompt = PROMPT_TEMPLATE.format(context=context, question=question)
     response = askAI(prompt)
     sources = list(set([doc.metadata.get("id", None) for doc, _score in results]))
-    responseObject = {
+    return {
+        "success": True,
         "response": response,
         "sources": sources
     }
-    return responseObject
 
 if __name__ == "__main__":
     main()

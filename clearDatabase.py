@@ -1,8 +1,10 @@
 import os
 import shutil
 from yaspin import yaspin
+from dotenv import load_dotenv
 
-DATABASE_PATH = "chroma"
+load_dotenv()
+DATABASE_PATH = os.getenv("DATABASE_PATH")
 
 def main():
     with yaspin(text="Clearing database...", color="cyan") as sp:
