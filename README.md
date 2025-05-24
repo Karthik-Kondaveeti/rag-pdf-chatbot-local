@@ -125,6 +125,102 @@ python askQuestion.py "What did the professor say about quantum entanglement?"
 
 ----------
 
+## 🚀 API Usage Guide
+
+This project includes a FastAPI backend that exposes endpoints to interact with your PDF-based chatbot system. Below is a guide on how to use these APIs.
+
+---
+
+### 📦 Endpoint Summary
+
+| Method | Endpoint     | Description                               |
+|--------|--------------|-------------------------------------------|
+| POST   | `/upload`    | Upload a PDF file                         |
+| POST   | `/add`       | Process uploaded PDFs and update database |
+| POST   | `/ask`       | Ask a question to the chatbot             |
+| POST   | `/clear`     | Clear the current database                |
+
+---
+
+### 🔄 Upload a PDF
+
+```bash
+curl -X POST "http://localhost:8000/upload" \
+  -H "accept: application/json" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@your_file.pdf"
+```
+
+-   📥 This will save the uploaded PDF file to the path specified by the `PATH` variable in your `.env` file.
+    
+
+----------
+
+### ➕ Add PDFs to the Vector Database
+
+After uploading PDFs, use the `/add` endpoint to process and add them to the vector store.
+
+```bash
+curl -X POST "http://localhost:8000/add"
+```
+-   ⚙️ This runs the embedding + indexing process using `addToDatabase.main()`. This will add any new pdfs in the folder onto the database. 
+    
+
+----------
+
+### ❓ Ask a Question
+
+Send a prompt to the chatbot and get an intelligent response based on your documents.
+
+```bash
+curl -X POST "http://localhost:8000/ask?prompt=What%20is%20this%20paper%20about"
+```
+
+-   💬 Replace the prompt text with your actual question.
+    
+
+----------
+
+### 🧹 Clear the Vector Database
+
+Use this when you want to reset the database and remove all indexed documents.
+
+```bash
+curl -X POST http://localhost:8000/clear
+```
+-   🗑️ This will call `clearDatabase.clear_database()` to reset everything.
+    
+----------
+
+### 🔧 Environment Variable
+
+Ensure you have a `.env` file with a `PATH` variable that defines where uploaded files should be stored:
+```
+DATABASE_PATH=./uploads
+```
+----------
+
+### 🏁 Run the FastAPI Server
+
+Start the API locally using:
+
+```bash
+uvicorn main:app --reload
+```
+-   Make sure your FastAPI code is in a file named `main.py` or change the command accordingly.
+    
+----------
+
+### ✅ Requirements
+
+Install FastAPI and Uvicorn:
+
+```bash
+pip install fastapi uvicorn python-dotenv
+```
+----------
+Now you're all set to build and query your PDF-based AI assistant through a clean and powerful API 🚀
+
 ## 🧠 Future Improvements
 
 -   Web UI
