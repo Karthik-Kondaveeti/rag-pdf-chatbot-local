@@ -1,0 +1,7 @@
+__pycache__/
+data/*
+chroma/*
+*.py[cod]
+*.env
+.env
+*.log
