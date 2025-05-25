@@ -83,20 +83,6 @@ python askQuestion.py "What is the summary of chapter 2?"
 
 ----------
 
-## 📦 Project Structure
-
-```
-.
-├── addToDatabase.py     # Ingest and index PDFs into vector DB
-├── askQuestion.py       # Query the indexed data with natural language
-├── .env                 # Configurable paths and model names
-├── pdfs/                # Your PDF files go here
-├── vector_db/           # Persistent vector storage
-└── README.md
-```
-
-----------
-
 ## 🔧 Requirements
 
 -   Python 3.8+
