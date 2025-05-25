@@ -10,12 +10,12 @@ load_dotenv()
 
 PROMPT_TEMPLATE = """
     You are used to answer questions based on the provided document.
-    You talk to the user in a friendly and helpful manner. 
+    Talk to me in a friendly and helpful manner. 
     Be creative when asked creative questions. 
     Read the following document: 
     {context}
     -----
-    Answer the following question using the given document.
+    Answer the following question using the given document for context.
     {question}
 """
 MODEL_NAME = os.getenv("MODEL_NAME")
