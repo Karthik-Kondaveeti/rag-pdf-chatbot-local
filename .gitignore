@@ -6,5 +6,5 @@ chroma/*
 *.env
 .env
 *.log
-createDatabase.py
-testEmbeddings.py
+/createDatabase.py
+/testEmbeddings.py
