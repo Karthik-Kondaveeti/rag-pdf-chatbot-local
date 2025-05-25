@@ -1,0 +1,10 @@
+__pycache__/
+data/*
+!data/.gitkeep
+chroma/*
+*.py[cod]
+*.env
+.env
+*.log
+createDatabase.py
+testEmbeddings.py
