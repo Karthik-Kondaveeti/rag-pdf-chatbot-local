@@ -1,4 +1,4 @@
-# 📄 PDF Chatbot with Vector Search & Ollama LLM
+# 📄 PDF Chatbot with Vector Search & Ollama
 
 This project allows you to **upload PDF files**, convert them into **semantic chunks**, store them in a **vector database**, and **interact with the content via natural language questions** using an LLM (like Ollama's LLaMA models).
 
